@@ -1,0 +1,14 @@
+{
+  "name": "de-afi",
+  "version": "1.0.0",
+  "description": "A web data extraction project to fetch data from Amazon, Flickr & Instagram",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ahmed Hossain",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^5.5.0"
+  }
+}
