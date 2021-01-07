@@ -28,7 +28,7 @@ const puppeteer = require('puppeteer');
 
   const page1 = await browser.newPage();
 
-  const img_url = await image_ref_array[2];
+  const img_url = await image_ref_array[0];
   const url = await 'https://www.flickr.com'+img_url;
 
   console.log(url);
@@ -47,6 +47,19 @@ const puppeteer = require('puppeteer');
   const comments  = await page1.evaluate(() => document.querySelector('.comment-count-label').innerText);
   console.log(`number of comments: ${comments}`);
 
+
+  // Get date uploaded
+  const date  = await page1.evaluate(() => document.querySelector('.date-taken-label').innerText);
+  console.log(`date uploaded: ${date}`);
+
+  // Get poste by name
+  const name  = await page1.evaluate(() => document.querySelector('.owner-name-with-by').innerText);
+  console.log(`uploaded by: ${name}`);
+
+  // Get photo id
+  const photo_id_arr = await image_ref_array[0].split("/");
+  const photo_id = await photo_id_arr[photo_id_arr.length-2];
+  console.log(`photo id: ${photo_id}`);
   browser.close();
 
 })();
