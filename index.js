@@ -28,38 +28,50 @@ const puppeteer = require('puppeteer');
 
   const page1 = await browser.newPage();
 
-  const img_url = await image_ref_array[0];
-  const url = await 'https://www.flickr.com'+img_url;
+  const all_image_data = [];
 
-  console.log(url);
+  for(let i=0; i<image_ref_array.length; i++){
+    const url = await 'https://www.flickr.com'+image_ref_array[i];
+  
+    console.log(url);
+  
+    await page1.goto(url);
+  
+    // Get number of views
+    const views  = await page1.evaluate(() => document.querySelector('.view-count-label').innerText);
+    // console.log(`number of views: ${views}`);
+  
+    // Get number of faves
+    const faves  = await page1.evaluate(() => document.querySelector('.fave-count-label').innerText);
+    // console.log(`number of faves: ${faves}`);
+  
+    // Get number of comments
+    const comments  = await page1.evaluate(() => document.querySelector('.comment-count-label').innerText);
+    // console.log(`number of comments: ${comments}`);
+  
+  
+    // Get date uploaded
+    const date  = await page1.evaluate(() => document.querySelector('.date-taken-label').innerText);
+    // console.log(`date uploaded: ${date}`);
+  
+    // Get poste by name
+    const name  = await page1.evaluate(() => document.querySelector('.owner-name-with-by').innerText);
+    // console.log(`uploaded by: ${name}`);
+  
+    // Get photo id
+    const photo_id_arr = await image_ref_array[i].split("/");
+    const photo_id = await photo_id_arr[photo_id_arr.length-2];
+    // console.log(`photo id: ${photo_id}`);
+  
+    // create data object
+    var data = {id:photo_id, views:views, faves:faves, comments:comments, date:date, name:name};
+    console.log(JSON.stringify(data));
+  
+    all_image_data.push(data);
+  };
 
-  await page1.goto(url);
-
-  // Get number of views
-  const views  = await page1.evaluate(() => document.querySelector('.view-count-label').innerText);
-  console.log(`number of views: ${views}`);
-
-  // Get number of faves
-  const faves  = await page1.evaluate(() => document.querySelector('.fave-count-label').innerText);
-  console.log(`number of faves: ${faves}`);
-
-  // Get number of comments
-  const comments  = await page1.evaluate(() => document.querySelector('.comment-count-label').innerText);
-  console.log(`number of comments: ${comments}`);
-
-
-  // Get date uploaded
-  const date  = await page1.evaluate(() => document.querySelector('.date-taken-label').innerText);
-  console.log(`date uploaded: ${date}`);
-
-  // Get poste by name
-  const name  = await page1.evaluate(() => document.querySelector('.owner-name-with-by').innerText);
-  console.log(`uploaded by: ${name}`);
-
-  // Get photo id
-  const photo_id_arr = await image_ref_array[0].split("/");
-  const photo_id = await photo_id_arr[photo_id_arr.length-2];
-  console.log(`photo id: ${photo_id}`);
+  await console.log(`all image data number = ${all_image_data.length}`)
+ 
   browser.close();
 
 })();
