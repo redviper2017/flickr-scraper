@@ -9,6 +9,7 @@
   "author": "Ahmed Hossain",
   "license": "MIT",
   "dependencies": {
+    "image-downloader": "^4.0.2",
     "puppeteer": "^5.5.0"
   }
 }
